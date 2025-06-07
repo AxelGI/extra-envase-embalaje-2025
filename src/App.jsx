@@ -67,18 +67,23 @@ const Embed = styled.embed`
   height: 600px;
   border-radius: 0.5rem;
   margin-bottom: 2rem;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 `;
 
 const ImageContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+  background: #f7f9fc;
 `;
 
 const StyledImage = styled.img`
   width: 100%;
   max-width: 900px;
   height: auto;
+  border-radius: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 `;
 
 const Video = styled.video`
@@ -147,10 +152,7 @@ export default function App() {
     <Container>
       <Content>
         <Title>Manual de Usuario</Title>
-        <Embed
-          src="https://manuals.plus/m/7bf504a1c6871d0e056e04993e3842a67dc840e38f8311415d74a20a72d4ba21_optim.pdf"
-          type="application/pdf"
-        />
+        <Embed src="/extra-envase-embalaje-2025/assets/manual.pdf#zoom=400" type="application/pdf" />
 
         <Title>Pruebas de Sonido para Audífonos Bluetooth</Title>
         <Grid>
@@ -194,11 +196,7 @@ export default function App() {
 
         <Footer>
           Audios cortesía de{" "}
-          <a
-            href="https://OnlineSound.net"
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a href="https://OnlineSound.net" target="_blank" rel="noreferrer">
             OnlineSound.net
           </a>
           . <br />
