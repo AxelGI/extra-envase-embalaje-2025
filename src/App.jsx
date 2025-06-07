@@ -1,5 +1,110 @@
 import React, { useRef, useState } from "react";
-import "./App.css"; // <— Importa aquí tu CSS puro
+import styled from "styled-components";
+
+const Container = styled.div`
+  min-height: 100vh;
+  background: #f7f9fc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Content = styled.div`
+  width: 100%;
+  max-width: 900px;
+  padding: 2rem 1rem;
+`;
+
+const Title = styled.h1`
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+`;
+
+const Grid = styled.div`
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+  }
+`;
+
+const Card = styled.div`
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  text-align: center;
+`;
+
+const Subtitle = styled.h2`
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #34495e;
+`;
+
+const Button = styled.button`
+  background-color: ${(props) => (props.active ? "#e74c3c" : "#3498db")};
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: bold;
+
+  &:hover {
+    background-color: ${(props) => (props.active ? "#c0392b" : "#2980b9")};
+  }
+`;
+
+const Embed = styled.embed`
+  width: 100%;
+  height: 600px;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
+`;
+
+const ImageContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
+
+const StyledImage = styled.img`
+  width: 100%;
+  max-width: 900px;
+  height: auto;
+`;
+
+const Video = styled.video`
+  display: block;
+  margin: 2rem auto;
+  border-radius: 1rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+`;
+
+const Footer = styled.footer`
+  margin-top: 3rem;
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+
+  a {
+    color: #2980b9;
+    text-decoration: underline;
+
+    &:hover {
+      color: #1c5980;
+    }
+  }
+`;
 
 const tests = [
   {
@@ -26,15 +131,12 @@ export default function App() {
 
   const handlePlayPause = (url) => {
     if (audioRef.current) {
-      // Si ya está sonando el mismo audio, pausa
       if (currentUrl === url && !audioRef.current.paused) {
         audioRef.current.pause();
         return;
       }
-      // Si es otro audio, detiene el anterior
       audioRef.current.pause();
     }
-    // Carga el nuevo audio
     const newAudio = new Audio(url);
     audioRef.current = newAudio;
     setCurrentUrl(url);
@@ -42,76 +144,68 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100 p-6">
-      <div className="w-full max-w-screen-md">
-        <h1 className="text-3xl font-bold text-center mb-6">Manual de Usuario</h1>
-        <embed
+    <Container>
+      <Content>
+        <Title>Manual de Usuario</Title>
+        <Embed
           src="https://manuals.plus/m/7bf504a1c6871d0e056e04993e3842a67dc840e38f8311415d74a20a72d4ba21_optim.pdf"
           type="application/pdf"
-          width="100%"
-          height="600px"
         />
 
-        <h1 className="text-3xl font-bold text-center mb-6">
-          Pruebas de Sonido para Audifonos Bluetooth
-        </h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Title>Pruebas de Sonido para Audífonos Bluetooth</Title>
+        <Grid>
           {tests.map((test, i) => (
-            <div key={i} className="bg-white p-4 rounded-xl shadow-md text-center">
-              <h2 className="text-xl font-semibold mb-2">{test.title}</h2>
-              <button
+            <Card key={i}>
+              <Subtitle>{test.title}</Subtitle>
+              <Button
                 onClick={() => handlePlayPause(test.url)}
-                className={`${
-                  currentUrl === test.url && audioRef.current && !audioRef.current.paused
-                    ? "bg-red-500"
-                    : "bg-blue-500"
-                } text-white px-4 py-2 rounded`}
+                active={
+                  currentUrl === test.url &&
+                  audioRef.current &&
+                  !audioRef.current.paused
+                }
               >
-                {currentUrl === test.url && audioRef.current && !audioRef.current.paused
+                {currentUrl === test.url &&
+                audioRef.current &&
+                !audioRef.current.paused
                   ? "Pausar"
                   : "Reproducir"}
-              </button>
-            </div>
+              </Button>
+            </Card>
           ))}
-        </div>
+        </Grid>
 
-        <h1 className="text-3xl font-bold text-center mb-6">¡No tires tu caja!</h1>
-        <img
+        <Title>¡No tires tu caja!</Title>
+      </Content>
+
+      <ImageContainer>
+        <StyledImage
           src="/extra-envase-embalaje-2025/assets/soporte-cel.png"
           alt="Soporte para celular hecho con la caja"
-          className="mx-auto my-6 rounded-lg shadow-lg w-full h-auto max-w-screen-lg"
         />
+      </ImageContainer>
 
-        <h2 className="text-3xl font-bold text-center mb-6">
-          Y así de facil podrias tener un soporte para tu celular
-        </h2>
-
-        <video
+      <Content>
+        <Title>Y así de fácil podrías tener un soporte para tu celular</Title>
+        <Video
           src="/extra-envase-embalaje-2025/assets/soportecel.mp4"
           controls
-          className="mx-auto my-6 rounded-lg shadow-lg w-full max-w-sm"
-          style={{ height: "auto" }}
         />
 
-        <br />
-        <br />
-        <br />
-        <footer className="mt-10 text-center text-gray-500 text-sm">
-          <div>
-            Audios cortesía de{" "}
-            <a
-              href="https://OnlineSound.net"
-              className="underline"
-              target="_blank"
-              rel="noreferrer"
-            >
-              OnlineSound.net
-            </a>
-            . <br />
-            Sitio creado por Axel García Ibarra para el extra de envase y embalaje.
-          </div>
-        </footer>
-      </div>
-    </div>
+        <Footer>
+          Audios cortesía de{" "}
+          <a
+            href="https://OnlineSound.net"
+            target="_blank"
+            rel="noreferrer"
+          >
+            OnlineSound.net
+          </a>
+          . <br />
+          Sitio creado por Axel García Ibarra para el extra de envase y
+          embalaje.
+        </Footer>
+      </Content>
+    </Container>
   );
 }
